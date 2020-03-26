@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo list</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <div id="myDIV" class="header">
+        <h2 style="margin:5px">My To Do List</h2>
+        <input type="text" id="search" placeholder="Filtrer par tags...">
+        <button onclick="search()">Filtrer</button>
+        <!-- Trigger/Open The Modal -->
+        <button id="modal_btn" style="float: right;">Ajouter une tâche</button>
+    </div>
+
+    <!-- The Modal -->
+    <div id="modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span id="close_modal" class="close">&times;</span>
+            <h3>Ajouter une tâche</h3>
+            <input type="hidden" id="id">
+            <div>
+                <label for="title">Titre</label>
+                <input type="text" id="title" placeholder="Titre...">
+            </div>
+            <div>
+                <label for="date_begin">Date de début</label>
+                <input type="date" id="date_begin" name="date_begin" placeholder="Date de début">
+            </div>
+            <div>
+                <label for="date_end">Date de fin</label>
+                <input type="date" id="date_end" name="date_end" placeholder="Date de fin">
+            </div>
+            <div>
+                <label for="status">Etat de la tâche</label>
+                <select id="status"></select>
+            </div>
+            <div>
+                <label for="tags">Tags</label>
+                <textarea id="tags"></textarea>
+            </div>
+            <span id="addTask">Ajouter</span>
+            <span id="editTask">Enregistrer</span>
+        </div>
+    </div>
+
+    <ul id="todolist"></ul>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/public/task.js"></script>
+</body>
+</html>
