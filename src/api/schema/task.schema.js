@@ -1,6 +1,15 @@
 const { uuid, isUuid } = require('uuidv4');
 const status = require("../models/status");
 
+/**
+ * @typedef Task
+ * @property {string} id.required - unique Task identifier
+ * @property {string} title.required - Task title
+ * @property {string} date_begin - Task beginning date
+ * @property {string} date_end - Task end date
+ * @property {enum} status - Task's status - eg: Non précisé,Une tâche est requise,En cours,Achevée,Annulé
+ * @property {Array.<string>} tags
+ */
 module.exports = {
     id: {
         default: () => uuid(),
@@ -17,13 +26,13 @@ module.exports = {
     date_begin: {
         default: () => new Date(),
         nullable: false,
-        type: 'object',
+        type: 'string',
         validate:  e => e instanceof Date || !!Date.parse(e)
     },
     date_end: {
         default: () => new Date(),
         nullable: false,
-        type: 'object',
+        type: 'string',
         validate: e => e instanceof Date || !!Date.parse(e)
     },
     status: {

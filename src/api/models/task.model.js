@@ -1,5 +1,4 @@
 const TaskSchema = require("../schema/task.schema");
-const status = require("./status");
 const db = require('./db');
 
 const Task = function(data) {

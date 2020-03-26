@@ -25,11 +25,11 @@ router.use(express.json());
 /**
  * API routes
  */
-router.get('/api/tasks',        TaskController.getall);
-router.get('/api/task/:id',     TaskController.getone);
-router.post('/api/task',        TaskController.create);
-router.put('/api/task/:id',     TaskController.update);
-router.delete('/api/task/:id',  TaskController.delete);
+router.get('/tasks',        TaskController.getall);
+router.get('/task/:id',     TaskController.getone);
+router.post('/task',        TaskController.create);
+router.put('/task/:id',     TaskController.update);
+router.delete('/task/:id',  TaskController.delete);
 
 // export router
 module.exports = router;
