@@ -1,21 +1,21 @@
-const Task = require('../model/task');
+const TaskModel = require('../models/task.model');
 
 async function get_one(req, res) {
     const id = req.params.id;
-    Task.findOne(id)
+    TaskModel.findByID(id)
     .then(task => {
-        res.json(task);
+        res.status(200).json(task.data);
     })
     .catch(err => {
         console.error(err);
-        res.status(err.status).end();
+        res.status(err.status).json(err).end();
     });
 }
 
 async function get_all(req, res) {
-    Task.find()
+    TaskModel.find()
     .then(task_list => {
-        res.json(task_list);
+        res.status(200).json(task_list.map(x => x.data));
     })
     .catch(err => {
         console.error(err);
@@ -24,48 +24,52 @@ async function get_all(req, res) {
 }
 
 async function create(req, res) {
-    let new_task = new Task(req.body);
+    const body = req.body;
+    delete body['id'];
+    let new_task = new TaskModel(body);
     new_task.save()
     .then(task => {
-        res.json(task);
+        res.status(200).json(task.data);
     })
     .catch(err => {
         console.error(err);
-        res.status(500).end();
+        res.status(err.status || 500).json(err || {}).end();
     });
 }
 
 async function update(req, res) {
     const id = req.params.id;
     const body = req.body;
-    Task.findOne(id)
+    delete body['id'];
+    TaskModel.findByID(id)
     .then(task => {
         for(let k in body)
-            if (k in task.data) task.set(k, body[k]);
+            if (k in task.data && !!body[k])
+                task.set(k, body[k]);
 
         return task.save();
     })
     .then(task => {
-        res.json(task);
+        res.status(200).json(task.data);
     })
     .catch(err => {
         console.error(err);
-        res.status(500).end();
+        res.status(err.status || 500).json(err || {}).end();
     });
 }
 
 async function delete_(req, res) {
     const id = req.params.id;
-    Task.findOne(id)
+    TaskModel.findByID(id)
     .then(task => {
         return task.delete();
     })
     .then(() => {
-        res.json({message: "successful deletion"});
+        res.status(200).json({message: "successful deletion"});
     })
     .catch(err => {
         console.error(err);
-        res.status(err.status || 500).end();
+        res.status(err.status || 500).json(err || {}).end();
     });
 }
 
