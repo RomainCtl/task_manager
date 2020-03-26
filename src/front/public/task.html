@@ -11,6 +11,8 @@
         <h2 style="margin:5px">My To Do List</h2>
         <input type="text" id="search" placeholder="Filtrer par tags...">
         <button onclick="search()">Filtrer</button>
+        <input type="checkbox" id="current_filter">
+        <label for="current_filter">Tâches non achevées et non annulées qui ne sont pas arrivees à échéance</label>
         <!-- Trigger/Open The Modal -->
         <button id="modal_btn" style="float: right;">Ajouter une tâche</button>
     </div>
@@ -47,7 +49,7 @@
         </div>
     </div>
 
-    <ul id="todolist"></ul>
+    <table id="todolist" width="100%"></table>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/public/task.js"></script>

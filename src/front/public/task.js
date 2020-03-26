@@ -9,14 +9,16 @@ const statusEnum = {
 };
 
 var tasks = [],
-    displayed_tasks = [];
+    displayed_tasks = [],
+    not_completed_not_cancelled_not_yet_expired = false;
 
 /* API requests */
 function getTasks() {
     axios.get(api_host+":"+api_port+"/api/tasks")
     .then( res => {
         window.tasks = res.data;
-        search();
+        window.displayed_tasks = res.data;
+        filt();
     })
     .catch( err => {
         console.log(err);
@@ -78,10 +80,12 @@ function setEditEffect() {
 
             id.value = task.id;
             title.value = task.title;
-            date_begin.value = task.date_begin;
-            date_end.value = task.date_end;
+            let date = new Date(task.date_begin);
+            date_begin.value = date.getFullYear()+"-"+("0"+(date.getMonth()+1)).slice(-2)+"-"+date.getUTCDate();
+            date = new Date(task.date_end);
+            date_end.value = date.getFullYear()+"-"+("0"+(date.getMonth()+1)).slice(-2)+"-"+date.getUTCDate();
             status_e.value = task.status;
-            tags.value = task.tags;
+            tags.value = task.tags.join(" ");
 
             editTaskbtn.style.display = "flex";
             addTaskbtn.style.display = "none";
@@ -92,19 +96,36 @@ function setEditEffect() {
 
 /* Todo list */
 function createChild(task) {
-    let e = document.createElement("li");
+    let e = document.createElement("tr");
     e.setAttribute("data-task", JSON.stringify(task));
-    e.appendChild( document.createTextNode(task.title) );
+
+    let span = document.createElement("td");
+    span.appendChild( document.createTextNode(task.title) );
+    e.appendChild(span);
+
+    span = document.createElement("td");
+    let date = new Date(task.date_begin);
+    span.appendChild( document.createTextNode(date.getFullYear()+"-"+("0"+(date.getMonth()+1)).slice(-2)+"-"+date.getUTCDate()) );
+    e.appendChild(span);
+
+    span = document.createElement("td");
+    date = new Date(task.date_end);
+    span.appendChild( document.createTextNode(date.getFullYear()+"-"+("0"+(date.getMonth()+1)).slice(-2)+"-"+date.getUTCDate()) );
+    e.appendChild(span);
+
+    span = document.createElement("td");
+    span.appendChild( document.createTextNode(task.status) );
+    e.appendChild(span);
 
     // close btn
-    let span = document.createElement("SPAN"),
-        txt = document.createTextNode("\u00D7");
+    span = document.createElement("td");
+    let txt = document.createTextNode("🗑");
     span.className = "delete";
     span.appendChild(txt);
     e.appendChild(span);
 
     // edit btn
-    span = document.createElement("SPAN");
+    span = document.createElement("td");
     txt = document.createTextNode("\u270E");
     span.className = "edit";
     span.appendChild(txt);
@@ -130,6 +151,7 @@ function refreshList() {
 var modal = document.getElementById("modal"),
     btn = document.getElementById("modal_btn"),
     search_input = document.getElementById("search"),
+    current_filter = document.getElementById("current_filter");
     // modal btns
     span = document.getElementById("close_modal"),
     addTaskbtn = document.getElementById("addTask"),
@@ -206,6 +228,10 @@ function init() {
         // if (e.keyCode === 13)
             search();
     });
+    current_filter.addEventListener('click', e => {
+        not_completed_not_cancelled_not_yet_expired = e.target.checked;
+        filt();
+    })
 
     getTasks();
 }
@@ -222,4 +248,17 @@ function search() {
         displayed_tasks = tasks.filter(task => task.tags.some(e => search_tag.indexOf(e) >= 0));
 
     refreshList();
+}
+
+/* Filter by not completed & not cancelled & not yet expired */
+function filt() {
+    if (!not_completed_not_cancelled_not_yet_expired)
+        search();
+    else {
+        displayed_tasks = displayed_tasks.filter(task => {
+            console.log(task.title, new Date(task.date_end), new Date(), new Date(task.date_end) - new Date());
+            return [status.DONE, status.CANCELLED].indexOf(task.status) == -1 && new Date(task.date_end) - new Date() >= 0
+        });
+        refreshList();
+    }
 }
