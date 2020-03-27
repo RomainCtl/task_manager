@@ -11,6 +11,7 @@ const status = require("../models/status");
  * @property {string} date_end - Task end date
  * @property {enum} status - Task's status - eg: Non précisé,Une tâche est requise,En cours,Achevée,Annulé
  * @property {Array.<string>} tags
+ * @property {string} user_id - user id who is assigned to this task
  */
 module.exports = {
     id: {
@@ -48,5 +49,11 @@ module.exports = {
         nullable: false,
         type: 'object',
         validate: e => Array.isArray(e)
+    },
+    user_id: {
+        default: () => null,
+        nullable: true,
+        type: 'string',
+        validate: e => true
     }
 }
