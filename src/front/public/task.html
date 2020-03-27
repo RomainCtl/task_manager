@@ -9,8 +9,10 @@
 <body>
     <div id="myDIV" class="header">
         <h2 style="margin:5px">My To Do List</h2>
+        <!-- To filter by tags -->
         <input type="text" id="search" placeholder="Filtrer par tags...">
         <button onclick="search()">Filtrer</button>
+        <!-- To filter by 'not_completed_not_cancelled_not_yet_expired' -->
         <input type="checkbox" id="current_filter">
         <label for="current_filter">Tâches non achevées et non annulées qui ne sont pas arrivees à échéance</label>
         <!-- Trigger/Open The Modal -->
@@ -49,6 +51,7 @@
         </div>
     </div>
 
+    <!-- The todo list (tasks) -->
     <table id="todolist" width="100%"></table>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

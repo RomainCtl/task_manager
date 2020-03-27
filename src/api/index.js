@@ -23,7 +23,7 @@ const options = {
         schemes: ['http']
     },
     basedir: __dirname,
-    files: ['./controller/**/*.js', './schema/**/*.js']
+    files: ['./controller/**/*.js', './schema/**/*.js'] // Where to look to find specification to auto generate swagger json file
 };
 expressSwagger(options)
 

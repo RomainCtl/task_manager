@@ -1,13 +1,19 @@
 const TaskSchema = require("../schema/task.schema");
 const db = require('./db');
 
+/**
+ * Task model
+ * @param {object} data - all fields of Task object
+ */
 const Task = function(data) {
     this.data = data;
 }
 
 Task.prototype.data = {};
 
-// to validate data
+/**
+ * To validate 'data' field of Task with task schema (../schema/task.schema)
+ */
 Task.prototype.sanitize = function (data) {
     data = data || {};
     errors = [];
@@ -33,7 +39,7 @@ Task.prototype.sanitize = function (data) {
     return data;
 }
 
-// getter & setter
+// getter & setter to access to task field
 Task.prototype.get = function(name) {
     return this.data[name];
 }
@@ -42,7 +48,10 @@ Task.prototype.set = function(name, value) {
 }
 
 
-/* Service */
+/**
+ * Find Task by ID (static function)
+ * @param {string} id - task id
+ */
 Task.findByID = function(id) {
     return new Promise((resolve, reject) => {
         db.hget("tasks", id, (err, offer) => {
@@ -53,6 +62,9 @@ Task.findByID = function(id) {
         });
     });
 }
+/**
+ * Find all task (static function)
+ */
 Task.find = function() {
     return new Promise((resolve, reject) => {
         db.hgetall("tasks", (err, reply) => {
@@ -66,16 +78,22 @@ Task.find = function() {
         });
     });
 }
+/**
+ * Save task (new or edition)
+ */
 Task.prototype.save = function() {
     return new Promise((resolve, reject) => {
-        this.data = this.sanitize(this.data);
+        this.data = this.sanitize(this.data); // validate with schema
 
         db.hset("tasks", this.data.id, JSON.stringify(this.data), (err, reply) => {
             if (err) reject(err);
-            else resolve(this);
+            else resolve(this); // return Task object on resolve
         });
     });
 }
+/**
+ * Delete task
+ */
 Task.prototype.delete = function () {
     return new Promise((resolve, reject) => {
         db.hdel("tasks", this.data.id, (err, reply) => {

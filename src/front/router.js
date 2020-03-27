@@ -12,9 +12,8 @@ router.use( (req, res, next) => {
 /**
  * Define routes
  */
-router.get('/',         (req, res) => res.redirect(301, '/tasks') ); // redirect /task
-router.get('/tasks',    (req, res) => res.sendFile(__dirname +'/public/task.html'));
-// router.get('/tasks',    (req, res) => res.json({message: 'prout'}));
+router.get('/',         (req, res) => res.redirect(301, '/tasks') ); // redirect /tasks
+router.get('/tasks',    (req, res) => res.sendFile(__dirname +'/public/task.html') );
 
 // export router
 module.exports = router;

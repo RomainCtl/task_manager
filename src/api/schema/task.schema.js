@@ -1,6 +1,8 @@
 const { uuid, isUuid } = require('uuidv4');
 const status = require("../models/status");
 
+// this header is for Swagger doc (Model definition of Task)
+
 /**
  * @typedef Task
  * @property {string} id.required - unique Task identifier
