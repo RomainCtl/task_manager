@@ -1,4 +1,5 @@
 const TaskModel = require('../models/task.model');
+const TaskSchema = require('../schema/task.schema');
 
 // theses headers are for Swagger doc (Routes definitions for Task)
 
@@ -80,7 +81,7 @@ async function update(req, res) {
     TaskModel.findByID(id)
     .then(task => {
         for(let k in body)
-            if (k in task.data && !!body[k])
+            if (k in task.data && ( !!body[k] || (!body[k] && TaskSchema[k].nullable) ))
                 task.set(k, body[k]);
 
         return task.save();
