@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-// import route func
+// import route functions
 const TaskController = require('./controller/task.controller');
+const UserController = require('./controller/user.controller');
 
 /**
  * Middleware that log each request with date
@@ -12,6 +13,7 @@ router.use( (req, res, next) => {
     next(); // go to next func (route)
 });
 
+// Cross-Origin headers
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:8080");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -19,17 +21,23 @@ router.use(function(req, res, next) {
     next();
 });
 
-// to parse body
+// to parse body (json)
 router.use(express.json());
 
 /**
- * API routes
+ * API routes (see functions for more details)
  */
-router.get('/tasks',        TaskController.getall);
-router.get('/task/:id',     TaskController.getone);
-router.post('/task',        TaskController.create);
-router.put('/task/:id',     TaskController.update);
-router.delete('/task/:id',  TaskController.delete);
+router.get('/tasks',        TaskController.getall); // get all tasks
+router.get('/task/:id',     TaskController.getone); // get task by id
+router.post('/task',        TaskController.create); // create task
+router.put('/task/:id',     TaskController.update); // edit task
+router.delete('/task/:id',  TaskController.delete); // delete task
+
+router.get('/users',        UserController.getall); // get all users
+router.get('/user/:id',     UserController.getone); // get user by id
+router.post('/user',        UserController.create); // create user
+router.put('/user/:id',     UserController.update); // edit user
+router.delete('/user/:id',  UserController.delete); // delete user
 
 // export router
 module.exports = router;
