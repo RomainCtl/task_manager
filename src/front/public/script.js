@@ -315,9 +315,7 @@ function clearModal() {
 }
 
 
-/**
- * Get all needed elements
- */
+// Get all needed elements
 var modal = document.getElementById("modal"),
     btn = document.getElementById("modal_btn"),
     search_input = document.getElementById("search"),

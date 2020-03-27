@@ -6,7 +6,9 @@
   "scripts": {
     "api": "nodemon ./src/api/index.js",
     "front": "nodemon ./src/front/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "api-doc": "./node_modules/.bin/jsdoc.cmd -c jsdocconf.json -d doc/api/ src/api/",
+    "front-doc": "./node_modules/.bin/jsdoc.cmd -c jsdocconf.json -d doc/front/ src/front/"
   },
   "author": "Romain Chantrel",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "uuidv4": "^6.0.6"
   },
   "devDependencies": {
+    "jsdoc": "^3.6.3",
     "nodemon": "^2.0.2"
   }
 }

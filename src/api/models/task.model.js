@@ -39,10 +39,18 @@ Task.prototype.sanitize = function (data) {
     return data;
 }
 
-// getter & setter to access to task field
+/**
+ * Get attribute of Task
+ * @param {string} name - name of attribute
+ */
 Task.prototype.get = function(name) {
     return this.data[name];
 }
+/**
+ * Set attribute of Task
+ * @param {string} name - name of attribute
+ * @param {object} value - value of attribute
+ */
 Task.prototype.set = function(name, value) {
     this.data[name] = value;
 }
